@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+ <style>
+     *{margin:0; padding: 0;}
+     html, body{ height: 100%;
+        }
+     .m{ height: 100%; }
+     .z{font-size:900%; color:gold;}
+     .a{font-size:400%; color:red;}
+ </style>
+</head>
+<body th:background="@{/img/cs.jpg}">
+<div class="m">
+
+    <p align="center" class="z" >学生档案管理系统</p>
+    <div>
+        <p style="text-align: center">  <a class="a" type="button" th:href="@{/login}">登录</a></p>
+    </div>
+</div>
+</body>
+</html>

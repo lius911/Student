@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>登录</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/laydata.css}">
+    <link rel="stylesheet" th:href="@{/css/layer.css}">
+  <link rel="stylesheet" th:href="@{/css/code.css}">
+  <link rel="stylesheet" th:href="@{/css/zui.min.css}">
+    <script th:src="@{/js/layui.js}"></script>
+  <script th:src="@{/js/zui.min.js}"></script>
+  <script th:src="@{/js/jquery-3.6.0.js}"></script>
+  <style>
+    .a{
+      width:500px;
+      height: 300px;
+      background:#b3d4fc;
+    }
+  </style>
+</head>
+<body>
+<div class="a">
+  <div class="navbar">
+    <ul class="nav navbar-nav nav-justified" id="np">
+      <li style="background: #bd7b46"><a  th:href="@{/login}">学生登录</a></li>
+      <li><a th:href="@{/tealogin}">教师登录</a></li>
+    </ul>
+  </div>
+  <div>
+    <form method="post" th:action="@{/home}">
+      <div >
+        <input name="sid" id="a" type="text">
+      </div>
+      <div>
+        <input name="spassword" id="b" type="password" >
+      </div>
+      <input type="submit"  value="立即登录" >
+    </form>
+    <a th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></a>
+  </div>
+</div>
+</body>
+</html>

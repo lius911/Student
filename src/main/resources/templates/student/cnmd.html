@@ -1,0 +1,25 @@
+<html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+    <script th:src="@{/js/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+</head>
+<body style="background: pink">
+<div style="text-align: center;" >
+<div class="layui-tab-content" data-id="99" >
+    <div class="layui-tab-item layui-show" style="background:#b3d4fc">
+      <p>姓名:<input th:value="${cs.sname}"></p> </br>
+        <p>性别:<input th:value="${cs.ssex}"></p></br>
+        <p>出生日期:<input th:value="${cs.sbirthday}"></p></br>
+        <p>身份证号:<input th:value="${cs.sidentitycode}"></p></br>
+        <p>电子邮箱:<input th:value="${cs.semail}"></p></br>
+        <p>电话号码:<input th:value="${cs.smobile}"></p></br>
+        <p>家庭住址:<input th:value="${cs.saddress}"></p></br>
+    </div>
+</div>
+</div>
+</body>
+</html>

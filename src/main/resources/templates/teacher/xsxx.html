@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/layui.all.js}"></script>
+    <script th:src="@{/js/layer.js}"></script>
+
+</head>
+<body>
+
+
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+<!--        <div class="demoTable" style="padding: 15px">-->
+<!--            搜索：-->
+<!--            <div class="layui-inline">-->
+<!--                <input class="layui-input" id="find" autocomplete="off">-->
+<!--            </div>-->
+<!--            <button class="layui-btn" data-type="reload" id="queryRole">搜索</button>-->
+<!--        </div>-->
+
+        <table id="tb-user" lay-filter="tb-user"></table>
+
+    </div>
+
+
+<!--编辑表单-->
+    <div class="layui-row" id="editUser" style="display:none;">
+    <div class="layui-col-md10">
+        <form class="layui-form layui-from-pane" id="saveUser" style="margin-top:20px">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sname" id="sname" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <input type="hidden" name="sid" id="sid">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="spassword" id="spassword" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ssex" id="ssex" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">出生日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sbirthday" id="sbirthday" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sidentitycode" id="sidentitycode" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="semail" id="semail" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="smobile" id="smobile" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="saddress" id="saddress" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sclass" id="sclass" required lay-verify="required" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-top:40px" id="check">
+                <div class="layui-input-block">
+                    <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="saveUser">保存</button>
+                    <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/html" id="toolbarDemo" th:inline="javascript">
+    <div class="layui-btn-container">
+        <button  class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe608;</i>新增</button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="remove"><i class="layui-icon">&#xe640;</i>删除</button>
+    </div>
+
+</script>
+
+<script type="text/html" id="barDemo" th:inline="javascript">
+    <a class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon">&#xe642;</i> </a>
+</script>
+<script th:inline="javascript">
+
+
+
+    var element, layer, laydate, table, form;
+
+    $(function () {
+        // 使用模块
+        layui.use(['element', 'layer', 'laydate', 'table','form'], function () {
+            element = layui.element;
+            layer = layui.layer;
+            laydate = layui.laydate;
+            table = layui.table;
+            form = layui.form;
+        });
+
+            laydate.render({
+                elem:"#birthday",
+                type: "date",
+                format:"yyyy-MM-dd",
+                value: ''
+            });
+        //第一个实例
+        table.render({
+            elem: '#tb-user'
+            , url: 'http://localhost:8080/cxsy' //数据接口
+            , page: true //开启分页
+            , toolbar: '#toolbarDemo'
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'sid', title: '学号', width: 80, sort: true, fixed: 'left'}
+                , {field: 'sname', title: '姓名'}
+                , {field: 'spassword', title: '密码'}
+                , {field: 'ssex', title: '性别'}
+                , {field: 'sbirthday', title: '出生日期'}
+                , {field: 'sidentitycode', title: '身份证号'}
+                , {field: 'semail', title: '邮箱'}
+                , {field: 'smobile', title: '电话'}
+                , {field: 'saddress', title: '地址'}
+                , {field: 'simgurl', title: '头像地址'}
+                , {field: 'sclass', title: '班级'}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120}
+            ]]
+        });
+
+        //监听表单提交
+        // 修改
+        form.on('submit(saveUser)', function(data){
+            layer.alert(JSON.stringify(data.field));
+            $.ajax({
+                url: 'http://localhost:8080/add',
+                type: 'POST',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(data.field),
+                success: function (result) {
+                    if (result.code == 200) {
+                        // layer.msg("修改成功！", {icon: 6});
+                        setTimeout(function () {
+                            layer.closeAll();//关闭所有的弹出层
+                            userTable.reload();
+                        }, 300);
+                    } else {
+                        layer.msg("操作失败！", {icon: 5});
+                    }
+                }
+            });
+
+            return false;
+
+        });
+
+        //工具栏事件
+        table.on('toolbar(tb-user)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            var checkData = checkStatus.data;
+            var ids=[];
+            switch (obj.event) {
+                // 新增
+                case 'add':
+                    $("#sname").val('');
+                    $("#spassword").val('');
+                    $("#sid").val('');
+                    $("#ssex").val('');
+                    $("#sbirthday").val('');
+                    $("#sidentitycode").val('');
+                    $("#semail").val('');
+                    $("#saddress").val('');
+                    $("#sclass").val('');
+                    layer.open({
+                        type: 1,
+                        offset: '10px',
+                        title: "新增用户",
+                        area: ['500px', '400px'],
+                        content: $("#editUser")
+                    });
+
+
+                    break;
+                // 删除
+                case 'remove':
+                    if(checkData.length==0){
+                        layer.alert('请选择要操作的行');
+                    }else{
+                        layer.confirm('确定要删除吗？',function (index) {
+                            for(var i=0; i<checkData.length;i++){
+                                ids.push(checkData[i].id);
+                            }
+                            //layer.alert(JSON.stringify(ids));
+                            $.ajax({
+                                url: '/api/layui/user/remove',
+                                type: 'POST',
+                                contentType: "application/json",
+                                dataType: "json",
+                                data: JSON.stringify(ids),
+                                success: function (result) {
+                                    if (result.code == 200) {
+                                        setTimeout(function () {
+                                            layer.closeAll();//关闭所有的弹出层
+                                            userTable.reload();
+                                        }, 300);
+                                    }
+                                }
+                            });
+                        });
+                    }
+                    break;
+                case 'getCheckData':
+
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                    break;
+            }
+            ;
+        });
+
+        // 监听工具条
+        table.on('tool(tb-user)', function (obj) {
+            var data = obj.data;
+            // 修改
+            if (obj.event === 'edit') {
+                $("#name").val(data.name);
+                $("#city").val(data.city);
+                $("#id").val(data.id);
+                $("#birthday").val(data.birthday);
+
+                layer.open({
+                    type: 1,
+                    offset: '10px',
+                    title: "修改用户",
+                    area: ['500px', '400px'],
+                    content: $("#editUser")
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
